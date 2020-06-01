@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<template id="recibo_facturas_print_view_document">
+<t t-call="report.html_container">
+  <t t-foreach="docs" t-as="o">
+    <div class="header">
+      <div class="row">
+      <!--col-xs-3 -->    
+         <div class="text-center">
+            <img t-if="user.company_id.logo" t-att-src="'data:image/png;base64,%s' % user.company_id.logo" style="height:140px;"/>
+          </div>
+          <!-- Aqui pongo la address  <div class="col-xs-9 text-right" style="margin-top:20px;" t-field="company.rml_header1"/>-->     
+      </div>
+    </div>
+
+	 <div class="footer">
+      <div class="row">
+      <!--col-xs-3 -->    
+         <div style="font-size:12px;font-color:navy;" class="text-right">
+			<p>Tegucigalpa, Edificio Plaza San José, 
+			Barrio La Pagoda Cubiculo #2</p>
+			<p>Telefono: 2231-1340, Email: ventas@veddepessa.hn, RTN: 08019014635196</p> 
+          </div>
+          <!-- Aqui pongo la address  <div class="col-xs-9 text-right" style="margin-top:20px;" t-field="company.rml_header1"/>-->     
+      </div>
+    </div>
+
+     <div class="page">
+		<div class="oe_structure"/>
+        <div class="row">
+			<br/>	  
+				<br/>	
+			<br/>	
+          <p ><h2 class="text-center"><strong>
+                          RECIBO</strong></h2><br/><br/>
+          </p>
+          <br/>
+			<table style="font-size:16px;width:100%; height:100px;">
+			<tr style="font-size:16px;"><td style="width:5%;"></td>
+			<td style="width:90%;text-align:justify">
+         
+   				Recibimos de <span t-field="o.partner_id.name"/>, la cantidad de L <span t-field="o.amount_total"/> (<span t-field="o.amount_total_text"/>), correspondiente al pago de la Factura No. <span t-field="o.number"/> con fecha <span t-field="o.date_invoice"/>, por la compra de 
+	
+        
+		</td><td style="width:5%;"></td>
+		</tr>
+		<tbody class="invoice_tbody">
+		<tr t-foreach="o.invoice_line" t-as="l" style="font-size:16px;">
+		<td style="width:8%;"></td>
+		<td style="width:86%;">
+			 <br/>
+			- <span t-field="l.quantity"/>  <span t-field="l.product_id.name"/>.
+		</td>
+		<td style="width:8%;"></td>
+		</tr>
+		</tbody>
+		</table>
+        </div> 
+		<br/><br/>		<br/><br/>		<br/><br/><br/><br/>
+		 <p class="text-center"><strong>____________________________</strong><br/></p>
+		  <p ><h4 class="text-center"><strong>
+                          Veddepessa, S. de R.L</strong></h4><br/>
+          </p>
+      </div> 
+      <!-- Esta etiqueta del footer es la que no funciona -->
+  </t>
+</t>
+</template>
+
+<template id="report_recibo_view">
+        <t t-call="report.html_container">
+            <t t-foreach="docs" t-as="doc">
+            <t t-raw="translate_doc(doc_id, doc_model,'partner_id.lang','delivery_cost.recibo_facturas_print_view_document')"/>
+            </t>
+        </t>
+</template>
+</data>
+</openerp>

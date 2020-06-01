@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+<data>
+<record model="ir.ui.view" id="partner_transportista_form_view">
+<field name="name">partner.transportista.form</field>
+<field name="model">res.partner</field>
+<field name="inherit_id" ref="base.view_partner_form"/>
+<field name="arch" type="xml">
+    <field name="user_id" position="after">
+           <field name="transportista"/>	
+           <field name="supplier_combustible"/>  
+    </field>
+<page string="Contacts" position="before">
+     <page string="Costo de Fletes" sequence="1" attrs="{'invisible': [('transportista', '=', False)]}">
+        <field name="delivery_ids"  readonly="True"></field>
+     </page>
+</page>
+<page string="Contacts" position="before">
+     <page string="Unidades de Transporte" sequence="2" attrs="{'invisible': [('transportista', '=', False)]}">
+        <field name="unidades_ids" >
+<tree name="Pipas de Transportista" editable="top">
+<field name="name"/>
+<field name="capacidad"/>
+<field name="dep1"/>
+<field name="dep2"/>
+<field name="dep3"/>
+<field name="dep4"/>
+<field name="dep5"/>
+<field name="dep6"/>
+
+</tree>
+</field>
+     </page>
+</page>
+</field>
+</record>
+
+<!--  Formulario de choferes -->
+<record model="ir.ui.view" id="partner_chofer_form_view">
+  <field name="name">partner.chofer.form</field>
+  <field name="model">delivery.chofer</field>
+  <field name="arch" type="xml">
+	   <form string="Chofer por transportista">
+	      <sheet>
+			<separator string="Información de Precios"/>
+			<group colspan="4">
+			 <group cols="2">
+				<field name="name"/>
+				<field name="id_chofer"/>
+			 </group>
+			<group cols="2">
+				<field name="transportista_id"/>
+			 </group>
+			</group>
+		 </sheet>
+	   </form>
+   </field>
+</record>
+
+<record model="ir.ui.view" id="partner_chofer_tree_view">
+  <field name="name">partner.chofer.tree</field>
+  <field name="model">delivery.chofer</field>
+  <field name="arch" type="xml">
+	   <tree string="Chofer por transportista">
+			<field name="name"/>
+			<field name="id_chofer"/>
+	   </tree>
+   </field>
+</record>
+<!--  Accion para transportistas -->
+<record model="ir.actions.act_window" id="partner_transportista_action">
+   <field name="name">Transportistas</field>
+   <field name="res_model">res.partner</field>
+   <field name="view_type">form</field>
+   <field name="view_model">kanban,tree,form</field>
+             <field name="domain">[('transportista','=',True)]</field>
+            <field name="context">{'default_customer': 0,'default_transportista': 1, 'default_supplier': 1, 'default_is_company': 1}</field>
+   <field name="help" type="html">
+   <p class="oe_view_nocontent_create">Crear primer transportista</p>
+   </field>
+   </record>
+
+<!--  Accion para choferes -->
+<record model="ir.actions.act_window" id="partner_chofer_action">
+   <field name="name">Choferes</field>
+   <field name="res_model">delivery.chofer</field>
+   <field name="view_type">form</field>
+   <field name="view_model">tree,form</field>
+   <field name="help" type="html">
+   <p class="oe_view_nocontent_create">Crear primer chofer</p>
+   </field>
+   </record>
+
+<menuitem name="Transportista" id="menu_transportista_managment" parent="menu_cost_configuration" action="partner_transportista_action"          groups="base.group_sale_manager" sequence="15"/>
+
+<menuitem name="Choferes" id="menu_chofer_managment" parent="menu_cost_configuration" action="partner_chofer_action" sequence="15"/>
+
+
+ </data>
+</openerp>

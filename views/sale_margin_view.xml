@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+<data>
+<record model="ir.ui.view" id="sale_delivery_margin_form_view">
+	<field name="name">sale.margin.delivery.cost</field>
+	<field name="model">sale.order</field>
+	<field name="inherit_id" ref="sale_margin.sale_margin_sale_order_line_form"/>
+	<field name="arch" type="xml">
+		<xpath expr="//field[@name='order_line']/tree//field[@name='purchase_price']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+		 <xpath expr="//group[@name='sale_total']" position="after">
+                <group name="sale_margin_grp">
+                    <field name="costo_producto" widget='monetary' options="{'currency_field': 'currency_id'}" groups="base.group_user"/>
+                </group>
+            </xpath>	
+    </field>
+</record>
+
+
+<!--<record model="ir.ui.view" id="sale_delivery_margin_form_view">
+	<field name="name">sale.margin.delivery.cost</field>
+	<field name="model">sale.order</field>
+	<field name="inherit_id" ref="sale_margin.sale_margin_sale_order"/>
+	<field name="arch" type="xml">
+		<xpath expr="//field[@name='margin']" position="attributes">
+                 <attribute name="invisible">True</attribute>
+        </xpath>
+    </field>
+</record>-->
+
+ </data>
+</openerp>

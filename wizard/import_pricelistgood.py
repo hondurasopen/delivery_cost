@@ -1,0 +1,78 @@
+from openerp import fields, models, exceptions, api, _
+import base64
+import csv
+import cStringIO
+from openerp.exceptions import except_orm, Warning, RedirectWarning
+
+class ImportInventory(models.TransientModel):
+    _name = "import.priceslist"
+
+    fecha_inicio = fields.Date("Fecha de Inicio",required=True)
+    fecha_final = fields.Date("Fecha Final",required=True)
+    product_id = fields.Many2one("product.product","Producto", required=True)
+    data = fields.Binary('File', required=True)
+    delimeter = fields.Char('Delimeter', default=',',
+                            help='Default delimeter is ","')
+    name = fields.Char("Lista de Precio")
+
+    @api.one
+    def action_import(self):
+        ctx = self._context
+        if self.fecha_inicio >= self.fecha_final:
+            raise except_orm(_('Advertencia'), _('.Fecha de debe ser mayor a la fecha final'))
+        else:
+            import_obj= self.env["sale.priceslist.import.data"]
+            prices_list_obj=self.env["sale.priceslist.gas"].search([('product_id', '=', self.product_id.id)])
+            obj_line_data= self.env["sale.priceslist.import.data.line"]
+
+            if 'active_id' in ctx:
+                importar = import_obj.browse(ctx['active_id'])
+            if not self.data:
+                raise exceptions.Warning(_("Seleccione un archivo!"))
+
+            data = base64.b64decode(self.data)
+            file_input = cStringIO.StringIO(data)
+            file_input.seek(0)
+            reader_info = []
+            delimeter = ','
+            reader = csv.reader(file_input, delimiter=delimeter, lineterminator='\r\n')
+            try:
+                reader_info.extend(reader)
+            except Exception:
+                raise exceptions.Warning(_("Not a valid file!"))
+            keys = reader_info[0]
+            if not isinstance(keys, list) or ('code' not in keys or 'prices_list' not in keys):
+                raise exceptions.Warning(_("No se encontraron 'code' or 'prices_list'"))
+                del reader_info[0]
+            values = {}
+            name_data= "Precio " + self.product_id.name + " "+ "Desde" + " " + self.fecha_inicio + " " + "Hasta" + " " + self.fecha_final 
+            importar.write({'name':name_data,'product_id':self.product_id.id,'inicio_date':self.fecha_inicio,'final_date':self.fecha_final})
+            for i in range(len(reader_info)):
+                vals = {}
+                field = reader_info[i]
+                values = dict(zip(keys, field))
+                #tmp_val = prices_list_obj.search([("code", "=", values['code']), ('product_id', '=', self.product_id.id) ])
+                tmp_val = prices_list_obj.search([("code", "=", values['code']), ('product_id', '=', self.product_id.id) ])
+                if tmp_val:
+                    vals = {
+                        'obj_parent': importar.id,
+                        'city_id': tmp_val.name.id,
+                        'price_list': values['prices_list'],
+                        'product_id': self.product_id.id,
+                        'date_init': self.fecha_inicio,
+                        'date_final': self.fecha_final,
+                        'code': values['code']}
+                    obj_line_data.create(vals)
+
+
+class Pricelistdataline(models.Model):
+    _name = "sale.priceslist.import.data.line"
+
+    product_id = fields.Many2one("product.product", "Producto")
+    city_id = fields.Many2one("delivery.cities", "Ciudad")
+    price_list = fields.Float("Precio por Galon")
+    date_init = fields.Date("Fecha Inicio")
+    date_final = fields.Date("Fecha Final")
+    obj_parent = fields.Many2one("sale.priceslist.import.data", "Priceslist")
+    code = fields.Char("Codigo")
+

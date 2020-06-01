@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+    <record id="view_nota_debito_factura_ved" model="ir.ui.view">
+            <field name="name">nota.debito.factura.form</field>
+            <field name="model">nota.debito.factura</field>
+            <field name="arch" type="xml">
+                <form string="Credit Note">
+                    <group>
+                         <group>
+                             <field name="journal_id" widget='selection'/>
+			<field name="amount"/>
+			<field name="name"/>
+                         </group><group>
+                             <field name="fecha_nota"/>
+                             <field name="periodo_id"/>
+			     <field name="invoice_number"/>
+                         </group>
+                    </group>
+                    <footer>
+                        <button string='Crear Nota de debito' name="invoice_nota_debito" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+               </form>
+            </field>
+        </record>
+
+	<record id="action_factura_nota_debito" model="ir.actions.act_window">
+            <field name="name">Nota de Debito</field>
+            <field name="res_model">nota.debito.factura</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+           <field name="view_id" ref="view_nota_debito_factura_ved"/>
+		<field name="nodestroy">True</field>
+           <field name="target">new</field>
+        </record>
+
+ <record id="view_invoice_nota_debito_inv" model="ir.ui.view">
+        <field name="name">account.invoice.customer.nota.debito</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_form"/>
+        <field name="arch" type="xml">
+
+		<xpath expr="//button[@name='action_cancel_draft']" position="after">
+<button name="%(action_factura_nota_debito)d" type="action" string="Nota de Debito" attrs="{'invisible': ['|', ('state','not in',['open','paid']), ('type','!=','out_invoice')]}" />
+
+		</xpath>
+        </field>
+</record>
+
+    </data>
+</openerp>

@@ -1,0 +1,196 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+<template id="ventas_api_view_document">
+    <t t-foreach="docs" t-as="o">
+    <t t-if="o and 'company_id' in o">
+    <t t-set="company" t-value="o.company_id"></t>
+    </t>
+    <t t-if="not o or not 'company_id' in o">
+    <t t-set="company" t-value="res_company"></t>
+    </t>
+ <div class="header">
+         <div class="row">
+    <!--col-xs-3 -->    
+            <div class="col-xs-2">
+                <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="height:120px;"/>
+            </div>
+        <!-- Aqui pongo la address  <div class="col-xs-9 text-right" style="margin-top:20px;" t-field="company.rml_header1"/>-->     
+         <div class="col-xs-9 text-right" style="margin-top:20px;">
+                   <p>  <h1 class="text-right" style="font-weight:bold;">
+                    <span>PRUEBAS API</span>
+            <br/>
+                    </h1>
+        </p>    
+         </div>
+    </div>
+     
+</div>
+
+
+<!-- Fin de xpath de div clas header-->
+   <div class="page">   
+    <!-- Tabla para Datps de facturacion--> 
+    <table style="font-size:14px; width:100%; height:100px;">
+    <tr>
+        <td style="width:30%;border:1px solid gray"><span t-field="company.city"/>, <span t-field="company.street"/>
+            <br/>
+            <span t-field="company.street2"/>
+            <br/>
+            Telefono:
+                    <span t-field="company.phone"/>
+            <br/>
+            Email:
+                    <span t-field="company.email"/>
+            <br/>
+            RTN:
+                    <span t-field="company.vat"/>
+                    
+        </td>
+        
+        <td style="width:5%;">  </td>
+        <td style="width:5%;">  </td>
+        <td style="width:60%;">
+        <table style="border-spacing: 20px 0px;border-collapse: separate;font-size:14px;">
+        <!-- 1 -->
+           <tr>         
+           <td class="text-right" style="width:15%;"><strong>Fecha: </strong>   </td><td style="border:1px solid black;width:85%;"> 
+           <span t-field="o.date_order" t-options ='{"format": "MM/dd/yyyy"}'/>
+       		</td>
+           </tr>
+        <!-- 2-->
+        <tr>            
+   <td class="text-right" style="width:15%;"><strong>Factura #: </strong></td> <td style="border:1px solid black;width:85%;">  
+        <span t-field="o.invoice_ids.number"/></td>
+           </tr>
+        <!-- 3-->
+            <!-- 4-->
+        </table>
+        </td>
+        
+    </tr>
+    </table>    
+    
+    <br/>
+    <br/>
+    <table style="border:1px solid black;font-size:14px;width:100%; height:100px;">
+        <tr style="background:gray;font-color:white;font-size:16px;"><td><strong>Factura para: </strong></td><td/>
+        </tr>
+        <tr><td style="width:70%;"><strong> Nombre de la empresa: </strong> <span t-field="o.partner_id"/></td> <td style="width:30%;">     
+        </td></tr>
+        <tr><td style="width:70%;"><strong>Dirección: </strong>
+            <!-- IF en qweb -->
+            <span t-if="o.optional_address">
+                <span t-field="o.optional_address"/>
+            </span>
+            <!-- Else wn Qweb-->
+            <span t-if="not(o.optional_address)">
+                <span t-field="o.partner_id.street"/>,
+                <span t-field="o.partner_id.street2"/>,
+                <span t-field="o.partner_id.phone"/>
+            </span>         
+        </td> 
+        <td style="width:30%;">         
+        </td></tr>
+        <tr><td style="width:70%;"><strong>Dirección de entrega: </strong><span t-field="o.client_order_ref"/></td> <td style="width:30%;"/>     
+        </tr>
+        <tr><td style="width:50%;"><strong>Ciudad: </strong><span t-field="o.partner_id.city"/></td> 
+        <td style="width:30%;">   
+        </td></tr>
+        
+    </table>
+        
+ <br/><br/>
+<t t-set="nombre_conductor" t-value="0"/>
+<t t-set="id_conductor" t-value="0"/>
+<t t-set="placa" t-value="0"/>
+       
+ <table class="table table-condensed" style="font-size:12px;border:1px solid black;">
+    <thead style="background:gray;font-color:white;">
+    <tr style="font-size:16px;">
+            <!--<th>Item</th>-->
+
+    <th class="text-center" style="width:20%;border:1px solid black;">Combustible</th>
+    <th class="text-center" style="width:10%;border:1px solid black;">Depósitos</th>
+    <th class="text-center" style="width:20%;border:1px solid black;">Sellos Valvulas.</th>
+    <th class="text-center" style="width:20%;border:1px solid black;">Sellos Manhole</th>
+    <th class="text-center" style="width:15%;border:1px solid black;">API</th>
+    <th class="text-center" style="width:15%;border:1px solid black;">Unidad</th>
+    </tr>
+    </thead>
+    <tbody class="invoice_tbody" style="font-size:12px;">
+        <tr t-foreach="o.sale_line_fleet_ids" t-as="l">
+            <!--<td></td>-->
+            <td class="text-center" style="width:20%;;border:1px solid black;">
+                <span t-field="l.product_id.name"/>
+            </td>
+            <td class="text-center" style="width:10%;;border:1px solid black;">
+                <span t-field="l.deposito"/>
+            </td>
+            <td style="width:20%;border:1px solid black;" class="text-center">
+                <span t-field="l.sellos_valvulas"/>
+            </td>
+            <td class="text-center" style="width:20%;border:1px solid black;">
+                <span t-field="l.sellos_manhole"/>
+            </td>
+            <td class="text-center" style="width:15%;border:1px solid black;">
+                <span t-field="l.api_cliente"/>
+            </td>
+            <td class="text-center" style="width:15%;border:1px solid black;">
+                <span t-field="l.name"/>
+            </td>
+        <t t-if="nombre_conductor == 0">
+            <t t-set="nombre_conductor" t-value="l.chofer_id.name"/>
+            <t t-set="id_conductor" t-value="l.chofer_id.id_chofer"/>
+            <t t-set="placa" t-value="l.name.numero_placa"/>
+        </t>
+        </tr>
+    </tbody>
+    </table>
+        
+    <br/>
+    <table style="border-collapse:separate;border:1px solid black;height:110px;">
+    <tr>
+        <td/>
+        <td><p/></td>
+        <td/>
+    </tr>
+    <tr>
+        <td style="width:10%;"/>
+        <td style="width:70%;">
+        <p style="font-size:12px;">
+                <strong>Transportista: </strong><span t-field="o.transportista_id.name"/>
+        <br/>
+        <strong>Nombre del Conductor: </strong><span  t-esc="nombre_conductor"/>
+        <br/>
+        <strong>Numero de Identidad: </strong><span  t-esc="id_conductor"/>
+        <br/>
+        <strong>Numero de Placa: </strong><span  t-esc="placa"/>
+        <br/>
+        </p>
+        </td><td style="width:20%;"/>
+    </tr>
+    </table> 
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <table>
+        <tr>
+        <td style="width:40%;"/>
+        <td style="width:40%;" class="text-center">
+            La factura es un beneficio de todos exijala.
+            <br/>
+                <strong>Gracias por su compra</strong>
+        </td>
+        <td style="width:20%;"/></tr>
+        </table> 
+<!-- Aqui pongo algo -->
+<br/>
+   </div> 
+<!-- Fin de xpath de div clas page-->
+</t>
+</template>
+</data>
+</openerp>

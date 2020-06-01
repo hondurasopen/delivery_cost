@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+    <report
+        id="ventas_api"
+        model="sale.order"
+        string="API de Cliente"
+        name="delivery_cost.ventas_api_view_document"
+        file="delivery_cost.ventas_api_view_document"
+        report_type="qweb-pdf" />
+</data>
+</openerp>
+

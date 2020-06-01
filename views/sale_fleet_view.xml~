@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+<data>
+<record model="ir.ui.view" id="sale_delivery_cost_form_view">
+          <field name="name">fleet.sale.order.cost</field>
+          <field name="model">sale.order</field>
+          <field name="inherit_id" ref="sale.view_order_form"/>
+          <field name="arch" type="xml">
+		<field name="partner_id" position="after">
+	  <field name="optional_address" />
+	</field>
+	<field name="client_order_ref" position="after">
+	  <field name="transportista_id"/>
+	</field>
+	<xpath expr="//field[@name='order_line']/tree/field[@name='price_subtotal']" position="after">
+	 <field name="ruta" domain='[("product_id","=",product_id)]'/>
+	</xpath>
+        <xpath expr="//page[@string='Other Information']" position="after">
+                <page string="Rutas de Envio" attrs="{'invisible': [('state', 'in', ('draft','sent'))]}">
+                    <form string="Costo de Fletes">
+			<group colspan="4">               
+			<group cols="2">
+    <button name="create_invoice" class="oe_highlight" string="Crear Factura de Fletes" type="object" colspan="4" /><!--attrs="{'invisible': [('invoice_id', '!=', False)]}"-->
+			</group>
+			<group cols="2">
+			   <field name="invoice_id"/>	
+			   <field name="total_flete" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+			</group>
+			</group>
+
+              		<field name="sale_line_fleet_ids">
+			    <tree string="Rutas de Envio" editable="bottom">
+				 <field name="transportista_id" />
+				<field name="fletes_id" domain='[("transportista_id","=",transportista_id)]'/>
+				<field name="description" />
+				<field name="product_id" />
+				<field name="qty_galones"/>
+				<field name="costo_galon" />
+				<field name="total" sum="Total"/>
+				<field name="name" domain='[("transportista_id","=",transportista_id)]'/>
+	  		    </tree>			
+          		</field><!--Fin de campo sale_line_fleet_ids-->	
+		     </form>
+        	</page>
+   </xpath>     
+          </field>
+        </record>
+ </data>
+</openerp>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+<data>
+<record model="ir.ui.view" id="invoice_delivery_cost_form_view">
+          <field name="name">optional.address.invoice</field>
+          <field name="model">account.invoice</field>
+          <field name="inherit_id" ref="account.invoice_form" />
+          <field name="arch" type="xml">
+				
+			<field name="fiscal_position" position="replace">
+				<field name="fiscal_position" invisible="1"/>
+			</field>
+
+			<field name="account_id" position="after">
+				<field name="nota_debito" readonly="1"/>
+			</field>
+	        <field name="partner_id" position="after">
+	             <field name="optional_address" invisible="1"/>
+               <field name="tipo_nota_credito" attrs="{'invisible': [('type', '=', 'out_invoice')]}"/>
+	        </field>
+	        <field name="residual" position="after">
+		         <field name="total_ncredito" readonly="1" attrs="{'invisible': ['|',('state', 'in', ('draft','sent')), ('type','!=','out_invoice') ]}"/>
+		         <field name="check_status" invisible="1"/>	
+	        </field>
+              <!-- <xpath expr="//page[@string='Other Info']" position="after">
+                 <page string="Notas de Credito" attrs="{'invisible': ['|',('state', 'in', ('draft','sent')), ('type','!=','out_invoice') ]}">
+                         <form string="Notas de Credito">
+                         <group colspan="4">               
+                              <group cols="2">
+
+
+                              </group>
+                         </group>
+
+
+                         </form>
+                 </page>
+               </xpath>  -->
+         </field>
+
+</record>
+
+<record model="ir.ui.view" id="invoice_tree_nota_credito">
+<field name="name">vista.tree.nota.credito</field>
+<field name="model">account.invoice</field>
+<field name="inherit_id" ref="account.invoice_tree" />
+<field name="arch" type="xml">
+  <field name="residual" position="after">
+      <field name="check_status" invisible="1"/>  
+  </field>  
+</field>
+</record>
+
+ </data>
+</openerp>

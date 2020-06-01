@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+<data>
+
+
+<!--  Accion para choferes -->
+<record model="ir.actions.act_window" id="action_department_honduras">
+<field name="name">Departamentos</field>
+<field name="res_model">res.country.state</field>
+<field name="view_type">form</field>
+<field name="view_model">tree,form</field>
+<field name="help" type="html">
+<p class="oe_view_nocontent_create">Crear primer chofer</p>
+</field>
+</record>
+
+
+
+<menuitem name="Departamentos" id="menu_delivery_departamentos_honduras" parent="menu_cost_configuration" action="action_department_honduras" sequence="100"
+  groups="delivery_cost.group_department_general"/>
+
+
+ </data>
+</openerp>

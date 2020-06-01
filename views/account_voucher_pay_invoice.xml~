@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="view_invoice_customer" model="ir.ui.view">
+            <field name="name">account.invoice.customer.nota.credito</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@string='Refund Invoice'][last()]" position="replace">
+                   <button name="nota_credito" type="object" string="Nota de Credito"
+                        attrs="{'invisible': ['|', ('state','!=','open'), ('sent','=',True)]}" groups="base.group_user"/>
+		</xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

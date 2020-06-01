@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+<data>
+<record model="ir.ui.view" id="sale_delivery_cost_form_view">
+<field name="name">fleet.sale.order.cost</field>
+<field name="model">sale.order</field>
+<field name="inherit_id" ref="sale.view_order_form"/>
+<field name="arch" type="xml">
+	<field name="partner_id" position="after">
+ 	<field name="optional_address" invisible="1"/>
+	<field name="proveedor_combustible_id"/>
+	</field>
+	<field name="client_order_ref" position="after">
+		<field name="transportista_id"/>
+		<field name="purchase_id" attrs="{'invisible': [('state', 'in', ('draft','sent'))]}"/>
+	</field>
+	<xpath expr="//field[@name='order_line']/tree/field[@name='price_subtotal']" position="before">
+		<field name="ruta" domain='[("product_id","=",product_id)]' options="{'no_create': True}" attrs="{'required': [('state', '=', 'draft')]}"/>
+	</xpath>
+        <xpath expr="//page[@string='Other Information']" position="after">
+           <page string="Rutas de Envio" attrs="{'invisible': [('state', 'in', ('draft','sent'))]}">
+            <form string="Costo de Fletes">
+			<group colspan="4">
+			<group cols="2">	
+			   <field name="total_flete" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+			</group>             
+			<group cols="2">
+			</group>			
+			</group>
+
+			<group colspan="4">
+			<group cols="2">
+				<field name="pedido_incidente"/>
+				<field name="registro_flete" invisible="1"/>
+				<!--<button name="registrar_incidente" class="oe_highlight" string="Registrar Incidencia" type="object" attrs="{'invisible': ['|', ('pedido_incidente', '=', False),('registro_flete', '=', True)]}" />-->
+				<field name="nota_incidentes" attrs="{'required':[('pedido_incidente', '=', True)] }" placeholder="Registrar incidente de flete"/>
+			</group>             
+			<group cols="2">
+				<field name="hora_entrada" />
+				<field name="hora_salida" />
+				<button name="registrar_incidente" class="oe_highlight" string="Registrar incidente y horas" type="object"/>
+			</group>			
+			</group>
+            <field name="sale_line_fleet_ids">
+			    <tree string="Rutas de Envio" editable="bottom">
+				<field name="transportista_id" options="{'no_create': True}"/>
+				<field name="fletes_id" domain='[("transportista_id","=",transportista_id)]'/>
+				<field name="description" invisible="1"/>
+				<field name="product_id" options="{'no_create': True}"/>
+				<field name="qty_galones"/>
+				<field name="costo_galon" />
+				<field name="total" sum="Total"/>
+				<field name="name" domain='[("transportista_id","=",transportista_id)]' options="{'no_create': True}"/>
+				<field name="chofer_id" domain='[("transportista_id","=",transportista_id)]' options="{'no_create': True}"/>
+				<field name="deposito" options="{'no_create': True}"  domain='[("unidad_id","=",name)]'/>
+				<field name="sellos_valvulas" />
+				<field name="sellos_manhole" />
+				<field name="api_cliente" />
+	  		    </tree>			
+          		</field><!--Fin de campo sale_line_fleet_ids-->	
+		     </form>
+        	</page>
+   		</xpath>     
+          </field>
+        </record>
+
+<record model="ir.ui.view" id="sale_delivery_tree_view">
+	<field name="name">fleet.sale.order.tree</field>
+	<field name="model">sale.order</field>
+	<field name="inherit_id" ref="sale.view_order_tree"/>
+	<field name="arch" type="xml">
+		<field name="date_order" position="before">
+			<field name="invoice_ids"/>
+		</field>
+	</field>
+</record>
+
+ </data>
+</openerp>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+<data>
+
+<record model="ir.ui.view" id="view_unidades_search">
+           		 <field name="name">transportista.unidades</field>
+           		 <field name="model">delivery.transportista.unidades</field>
+           		 <field name="arch" type="xml">
+				<search string = 'Buscar'>
+				<field name="name" filter_domain="[('transportista_id', 'ilike', self)]" string="Departamento"/>
+					  <group expand="0" string="Group By">
+                       				   <filter string="Transportista"  domain="[]" context="{'group_by':'transportista_id'}"/>	
+                   			 </group>
+				
+				</search>
+			</field>
+</record>
+
+<record model="ir.ui.view" id="fleet_loyalty_form_view">
+          <field name="name">delivery.unidades.pipa</field>
+          <field name="model">delivery.transportista.unidades</field>
+          <field name="arch" type="xml">
+	     <form string="Unidades de Transportista">
+		<sheet>
+		 <h1>
+              	<field name="name" placeholder="Tanque ..." class="oe_inline"/>
+          		</h1>	
+		<separator string="Información de Unidades"/>
+		<group colspan="4">
+		<group cols="2">	
+                        <field name="capacidad"/>   	
+		</group>
+		<group cols="2">
+			<field name="transportista_id"/>	
+		</group>
+		</group>
+	
+		<notebook colspan="4">
+		<page string="Depositos">
+			<separator string="Capacidad de Despositos"/>
+			<tree name="Depositos">
+			<group colspan="4">
+			  <group cols="2">
+				<field name="dep1"/>
+				<field name="dep2"/>
+				<field name="dep3"/>
+				<field name="dep4"/>
+			   </group>
+			   <group cols="2">
+				<field name="dep5"/>
+				<field name="dep6"/>
+				</group>
+			</group>
+			</tree>
+		</page>	
+		</notebook>
+		</sheet>
+	    </form>
+          </field>
+        </record>
+	
+   <record model="ir.ui.view" id="unidades_transportista_tree_view">
+   <field name="name">unidades.transportista.tree</field>
+   <field name="model">delivery.transportista.unidades</field>
+   <field name="arch" type="xml">
+       <tree string="Lista de Unidades">
+                <field name="transportista_id"/>
+          	<field name="name"/>
+		<field name="capacidad"/>
+
+       </tree>
+   </field> 
+   </record>-
+
+<!--  Accion para unidades -->
+<record model="ir.actions.act_window" id="unidades_action">
+   <field name="name">Unidades de Transportista</field>
+   <field name="res_model">delivery.transportista.unidades</field>
+   <field name="view_type">form</field>
+   <field name="view_model">tree,form</field>
+   <field name="help" type="html">
+   <p class="oe_view_nocontent_create">Crear primera unidad de transportista</p>
+   </field>
+   </record>
+
+<menuitem name="Unidades de Transportista" id="menu_unidades_managment" parent="menu_cost_configuration" action="unidades_action"          groups="base.group_sale_manager" sequence="15"/>
+
+
+
+
+ </data>
+</openerp>

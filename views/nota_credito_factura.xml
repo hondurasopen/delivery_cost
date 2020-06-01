@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    
+<record id="view_nota_credito_factura_ved" model="ir.ui.view">
+<field name="name">nota.credito.factura</field>
+<field name="model">nota.credito.factura</field>
+<field name="arch" type="xml">
+<form string="Credit Note">
+    <group>
+    <group>
+        <field name="journal_id" widget='selection'/>
+        <field name="amount"/>
+        <field name="tipo_nota_credito" required="1"/>
+        <field name="name"/>
+    </group>
+    <group>
+        <field name="fecha_nota"/>
+        <field name="periodo_id"/>
+        <field name="invoice_number"/>
+    </group>
+    </group>
+    <footer>
+        <button string='Crear Nota de Credito' name="invoice_nota_credito" type="object" class="oe_highlight"/>
+        or
+        <button string="Cancel" class="oe_link" special="cancel"/>
+    </footer>
+</form>
+</field>
+</record>
+
+	<record id="action_factura_nota_credito" model="ir.actions.act_window">
+            <field name="name">Nota de Credito</field>
+            <field name="res_model">nota.credito.factura</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+           <field name="view_id" ref="view_nota_credito_factura_ved"/>
+		<field name="nodestroy">True</field>
+           <field name="target">new</field>
+        </record>
+
+    </data>
+</openerp>

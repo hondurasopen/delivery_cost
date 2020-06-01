@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<record model="ir.module.category" id="module_category_city">
+            <field name="name">Permisos para fletes y precios</field>
+            <field name="description">Fletes y Precios</field>
+            <field name="sequence">4</field>
+</record>
+<!-- Permisos para ciudades en Modulo Veddepessa-->
+<record id="delivery_cost.group_cities_user_general" model="res.groups">
+<field name="category_id" ref="module_category_city"/>
+<field name="name">Permisos Ciudades / Usuario</field>
+</record>
+
+<record id="delivery_cost.group_department_general" model="res.groups">
+<field name="category_id" ref="module_category_city"/>
+<field name="name">Permisos Departamentos</field>
+</record>
+
+<record id="delivery_cost.group_cities_manager_general" model="res.groups">
+<field name="name">Permisos Ciudades / Manager</field>
+<field name="category_id" ref="module_category_city"/>
+ <field name="users" eval="[(4, ref('base.user_root'))]"/>
+</record>
+
+<!-- Permisos para puertos en Modulo Veddepessa-->
+<record id="delivery_cost.group_ports_user_general" model="res.groups">
+<field name="category_id" ref="module_category_city"/>
+<field name="name">Permisos Puertos / Usuario</field>
+</record>
+
+<record id="delivery_cost.group_ports_manager_general" model="res.groups">
+<field name="name">Permisos Puertos / Manager</field>
+<field name="category_id" ref="module_category_city"/>
+ <field name="users" eval="[(4, ref('base.user_root'))]"/>
+</record>
+
+<!-- Permisos para costos de fletes en Modulo Veddepessa-->
+<record id="delivery_cost.group_fleet_user_general" model="res.groups">
+<field name="category_id" ref="module_category_city"/>
+<field name="name">Permisos Costo de Fletes / Usuario</field>
+</record>
+
+<record id="delivery_cost.group_fleet_manager_general" model="res.groups">
+<field name="name">Permisos Costo de Fletes / Manager</field>
+<field name="category_id" ref="module_category_city"/>
+ <field name="users" eval="[(4, ref('base.user_root'))]"/>
+</record>
+
+<!-- Permisos para actualizar costos en productos Modulo Veddepessa-->
+<record id="delivery_cost.group_cost_price_user_general" model="res.groups">
+<field name="category_id" ref="module_category_city"/>
+<field name="name">Actualizar Precio de Costo / Usuario</field>
+</record>
+
+<record id="delivery_cost.group_cost_price_manager_general" model="res.groups">
+<field name="name">Actualizar Precio de Costo / Manager</field>
+<field name="category_id" ref="module_category_city"/>
+ <field name="users" eval="[(4, ref('base.user_root'))]"/>
+</record>
+
+<!-- Permisos para Notas de credito -->
+<record id="delivery_cost.group_nota_credit_user" model="res.groups">
+<field name="category_id" ref="module_category_city"/>
+<field name="name">Nota de credito / Usuario</field>
+</record>
+
+<record id="delivery_cost.group_nota_credit_manager" model="res.groups">
+<field name="category_id" ref="module_category_city"/>
+<field name="name">Nota de credito / Manager</field>
+ <field name="users" eval="[(4, ref('base.user_root'))]"/>
+</record>
+
+<!--Permisos para precios en rutas -->
+<record id="delivery_cost.group_pricelist_user" model="res.groups">
+<field name="category_id" ref="module_category_city"/>
+<field name="name">Precios de ruta / Usuario</field>
+</record>
+
+<record id="delivery_cost.group_pricelist_manager" model="res.groups">
+<field name="category_id" ref="module_category_city"/>
+<field name="name">Precios de ruta / Manager</field>
+<field name="users" eval="[(4, ref('base.user_root'))]"/>
+</record>
+
+
+<!-- Categoria de descuento de clientes-->
+<record model="ir.module.category" id="module_category_cliente">
+            <field name="name">Descuentos y Unidades</field>
+            <field name="description">Fletes y Precios</field>
+            <field name="sequence">4</field>
+</record>
+<!--Descuento en Partner -->
+<record id="delivery_cost.group_discount_user" model="res.groups">
+<field name="category_id" ref="module_category_cliente"/>
+<field name="name">Descuento de Clientes / Usuario</field>
+</record>
+
+<record id="delivery_cost.group_discount_manager" model="res.groups">
+<field name="category_id" ref="module_category_cliente"/>
+<field name="name">Descuento de Clientes / Manager</field>
+<field name="users" eval="[(4, ref('base.user_root'))]"/>
+</record>
+<!--Permisos en unidades en Transportista -->
+<record id="delivery_cost.group_unidades_user" model="res.groups">
+<field name="category_id" ref="module_category_cliente"/>
+<field name="name">Unidades de Transportista / Usuario</field>
+</record>
+
+<record id="delivery_cost.group_unidades_manager" model="res.groups">
+<field name="category_id" ref="module_category_cliente"/>
+<field name="name">Unidades de Transportista / Manager</field>
+<field name="users" eval="[(4, ref('base.user_root'))]"/>
+</record>
+
+
+</data>
+</openerp>
+
+

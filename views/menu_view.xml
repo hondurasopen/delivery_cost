@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+   <data>
+
+	
+   <!-- Menu Principal de Gestion de Fletes -->
+ <!--<menuitem name="Modulo Fletes" id="menu_delivery_cost_parent" string="Gestión de Fletes" sequence="15"/>-->
+
+   </data>
+</openerp>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

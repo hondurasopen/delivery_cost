@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+<data>
+<record model="ir.ui.view" id="partner_discount_form_view">
+    <field name="name">partner.discount.form</field>
+    <field name="model">res.partner</field>
+	<field name="inherit_id" ref="base.view_partner_form"/>
+	  <field name="arch" type="xml">
+		<field name="website" position="after">
+				<field name="activo_descuento_ciudad" attrs="{'invisible': [('customer', '=', False)]}"/>
+				<field name="tipo_cliente"/>
+		</field>
+	    <page string="Contacts" position="after">
+		 <page string="Precio de Productos" sequence="2" attrs="{'invisible': [('supplier', '=', False)]}">
+            <field name="price_product_ids" >
+				<tree name="Precio de Costo de Productos" editable="top">
+				<field name="product_id"/>
+				<field name="cost"/>
+				</tree>
+	    	</field>
+        </page>
+        <page string="Descuento de Ventas" sequence="2" attrs="{'invisible': [('customer', '=', False)]}">
+            <field name="discount_invoice_ids" >
+				<tree name="Descuento por Productos" editable="top">
+				<field name="product_id"/>
+				<field name="discount_invoice"/>
+				<field name="discount_total"/>	
+				</tree>
+	    	</field>
+        </page>
+		<page string="Descuentos por ciudad" sequence="1" attrs="{'invisible': [('activo_descuento_ciudad', '=', False)]}">
+		    <field name="discount_ciudad_ids" >
+				<tree name="Descuento por ciudad" editable="top">
+				<field name="product_id" options="{'no_create': True}" />
+				<field name="ciudad_id" options="{'no_create': True}" domain="[('product_id', '=', product_id)]"/>
+				<field name="discount_ciudad"/>
+				<!--<field name="discount_total_city"/>-->	
+				</tree>
+		    </field>
+		</page>
+		<page string="Chofer por transportista" sequence="1" attrs="{'invisible': [('transportista', '=', False)]}">
+			<field name="chofer_ids">
+				<tree name="Chofer por transportista" editable="top">
+					<field name="name"/>
+					<field name="id_chofer"/>	
+				</tree>
+			</field>
+		</page>
+		</page>	
+   </field>
+</record>
+</data>
+</openerp>
+

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+<data>
+
+<record model="ir.ui.view" id="cost_price_form_view">
+       <field name="name">purchase.cost.price</field>
+       <field name="model">purchase.cost.price</field>
+       <field name="arch" type="xml">
+           <form string="Precios de Costo">
+		<header>
+                   <button name="action_update_cost" type="object" string="Actualizar Precios" states="draft" class="oe_highlight" /> 
+		   <field name="state" widget="statusbar" nolabel="1"/>	
+		</header>
+	     <sheet>
+		<h2>
+              <field name="name" placeholder="Precios de Costo..." class="oe_inline" attrs="{'readonly': [('state','!=','draft')]}"/>
+          </h2>
+	<separator string="Precios de Costo"/>
+		<group colspan="4">
+		<group cols="2">	
+                        <field name="inicio_date"/>	  	
+		</group>
+		<group cols="2">
+			<field name="final_date"/>
+		</group>
+		</group>
+		<notebook colspan="4">
+		  <page string="Precios de Costo de Productos">
+			<separator string="Precios por Galón"/>
+			<field name="line_ids" attrs="{'readonly': [('state','!=','draft')]}">
+				<tree string="Precios por Ciudad" editable="bottom">
+					<field name="product_id"/>
+					<field name=""/>
+					<field name="cost_price"/>
+				</tree>
+			</field>
+		  </page>	
+		</notebook>
+	    </sheet>
+	  </form>
+       </field>
+</record>
+
+ <record model="ir.ui.view" id="pricescost_data_tree_view">
+   <field name="name">purchase.cost.price.tree</field>
+   <field name="model">purchase.cost.price</field>
+   <field name="arch" type="xml">
+       <tree string="Precios de Costo de Producto">
+                <field name="name"/>
+		<field name="inicio_date"/>
+		<field name="final_date" />
+       </tree>
+   </field> 
+   </record> 
+   <!--  Accion para Lista de Precios -->
+   <record model="ir.actions.act_window" id="cost_prices_data_action">
+   <field name="name">Precio de Costo</field>
+   <field name="res_model">purchase.cost.price</field>
+   <field name="view_type">form</field>
+   <field name="view_model">tree,form</field>
+   <field name="help" type="html">
+   <p class="oe_view_nocontent_create">Create first Priceslist</p>
+   </field>
+   </record>
+   <!-- Fin de Action de Contratos -->
+     <!--  Menu Principal de contratos-->
+<menuitem  id="menu_update_costprice" name="Actualizar Precios de Costo" action="cost_prices_data_action" 
+parent="menu_cost_configuration"  sequence="2"/>
+ </data>
+</openerp>

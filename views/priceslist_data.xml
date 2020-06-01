@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+<data>
+
+<record model="ir.ui.view" id="priceslist_data_sale_form_view1">
+       <field name="name">sale.priceslist.import.data.form</field>
+       <field name="model">sale.priceslist.import.data</field>
+       <field name="arch" type="xml">
+           <form string="Lista de Precios de Venta">
+		<header>
+		   
+                   <button name="action_update" type="object" string="Actualizar Precios" states="draft" class="oe_highlight" />
+		    
+		<button name="%(action_import_pricelist_1)d" type="action" string="Carga Archivo" states="draft"/>
+		<field name="state" widget="statusbar" nolabel="1"/>	
+		</header>
+	     <sheet>
+		<h2>
+              <field name="name" placeholder="Descripcion de lista de precio..." class="oe_inline" attrs="{'readonly': [('state','!=','draft')]}"/>
+          </h2>
+	<separator string="Información de Precios"/>
+		<group colspan="4">
+		<group cols="2">	
+                        <field name="inicio_date"/>	  	
+		</group>
+		<group cols="2">
+			<field name="final_date"/>
+		</group>
+		</group>
+		<notebook colspan="4">
+		  <page string="Precio por Ciudad">
+			<separator string="Precios por Galón"/>
+			<field name="line_ids" attrs="{'readonly': [('state','!=','draft')]}">
+				<tree string="Precios por Ciudad" editable="bottom">
+					<field name="city_id"/>
+					<field name="price_list"/>
+					<field name="product_id"/>
+				</tree>
+			</field>
+		  </page>	
+		</notebook>
+	    </sheet>
+	  </form>
+       </field>
+</record>
+
+ <record model="ir.ui.view" id="sale_priceslist_data_tree_view">
+   <field name="name">sale.priceslist.gas.tree</field>
+   <field name="model">sale.priceslist.import.data</field>
+   <field name="arch" type="xml">
+       <tree string="Lista de Precios">
+                <field name="name"/>
+                <field name="product_id"/>
+		<field name="inicio_date"/>
+		<field name="final_date" />
+       </tree>
+   </field> 
+   </record> 
+   <!--  Accion para Lista de Precios -->
+   <record model="ir.actions.act_window" id="sale_priceslist_data_action">
+   <field name="name">Lista de Precios</field>
+   <field name="res_model">sale.priceslist.import.data</field>
+   <field name="view_type">form</field>
+   <field name="view_model">tree,form</field>
+   <field name="help" type="html">
+   <p class="oe_view_nocontent_create">Create first Priceslist</p>
+   </field>
+   </record>
+   <!-- Fin de Action de Contratos -->
+     <!--  Menu Principal de contratos-->
+<menuitem  id="menu_import_pricelist" name="Ajuste de Precios de Venta" action="sale_priceslist_data_action" 
+parent="menu_cost_configuration"  sequence="1"/>
+ </data>
+</openerp>

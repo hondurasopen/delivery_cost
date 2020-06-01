@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+<data>
+<record model="ir.ui.view" id="delivery_cost_form_view">
+          <field name="name">delivery.cost.form</field>
+          <field name="model">delivery.cost.fleet</field>
+          <field name="arch" type="xml">
+             <form string="Costos de Fletes">
+	
+	    </form>
+          </field>
+ </record>
+
+   <!--  Accion para Contratos -->
+   <record model="ir.actions.act_window" id="delivery_fleet_action">
+   <field name="name">Lista de Fletes</field>
+   <field name="res_model">sale.order.line.delivery</field>
+   <field name="view_type">form</field>
+   <field name="view_model">tree,form</field>
+   <field name="help" type="html">
+   <p class="oe_view_nocontent_create">Create first flete</p>
+   </field>
+   </record>
+   <!-- Fin de Action de Contratos -->
+     <!--  Menu Principal de contratos-->
+   <menuitem name="Envio de Fletes" id="menu_fleet_cost_managment" parent="menu_cost_delivery" action="delivery_fleet_action"          groups="base.group_sale_manager" sequence="35"/>
+ </data>
+</openerp>

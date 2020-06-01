@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        <!-- Sequences for code --> 
+        <record id="seq_priceslist_code_type2" model="ir.sequence.type">
+            <field name="name">Codigo de Lista</field>
+            <field name="code">codprices</field>
+        </record>
+        <record id="seq_priceslist_type2" model="ir.sequence">
+            <field name="name">Codigo de Lista</field>
+            <field name="code">codprices</field>
+            <field name="prefix">codprices.</field>
+            <field name="padding">3</field>
+        </record>
+    </data>
+</openerp>

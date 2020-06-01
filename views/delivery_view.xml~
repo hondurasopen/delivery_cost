@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+<data>
+
+<record model="ir.ui.view" id="view_fleet_cost_search">
+           		 <field name="name">delivery.cost.fleet</field>
+           		 <field name="model">delivery.cost.fleet</field>
+           		 <field name="arch" type="xml">
+				<search string = 'Buscar'>
+					<field name="name" filter_domain="[('name', 'ilike', self)]" string="Lugar de Destino"/>
+					 <separator/>
+					  <group expand="0" string="Agrupado por">
+                       				   <filter string="Transportista"  domain="[]" context="{'group_by':'transportista_id'}"/>
+                     				   <filter string="Destino" domain="[]" context="{'group_by':'destiny_id'}"/>
+				 <filter string="Por Puerto de Origen" domain="[]" context="{'group_by':'name'}"/>		
+                   			 </group>
+				
+				</search>
+			</field>
+</record>
+
+ <record model="ir.ui.view" id="view_delivery_city_graph">
+            <field name="name">delivery.cost.city.graph</field>
+            <field name="model">delivery.cost.fleet</field>
+            <field name="arch" type="xml">
+                <graph string="Precios por Transportista" type="bar">
+		    <field name="transportista_id" type="row"/>
+                    <field name="costo_galon" type="measure"/>
+                </graph>
+            </field>
+</record>
+
+<record model="ir.ui.view" id="delivery_cost_form_view">
+          <field name="name">delivery.cost.form</field>
+          <field name="model">delivery.cost.fleet</field>
+          <field name="arch" type="xml">
+             <form string="Costos de Fletes">
+		<sheet>
+		<separator string="Información General"/>
+		<group colspan="4">
+		<group cols="2">	
+                        <field name="name" />	
+                	
+		</group>
+		<group cols="2">
+			<field name="transportista_id"/>
+			<field name="currency_id" />
+		</group>
+		</group>
+		<separator string="Costo de flete"/>
+		<group colspan="4">
+		   <group cols="2">  
+		<field name="origin_id"/>
+			<field name="costo_galon" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+		   </group>
+		   <group cols="2"> 
+				<field name="destiny_id"/> 
+			<field name="long_kms"/>
+		   </group>
+	        </group>
+		<group colspan="2">
+		<field name="activate"/>
+		</group>
+		<notebook colspan="4">
+		<page string="Notas">
+			<separator string="Notas"/>
+			<field name="notas"/>
+		</page>	
+		</notebook>
+		</sheet>
+	    </form>
+          </field>
+ </record>
+
+ <record model="ir.ui.view" id="cities_tree_view">
+   <field name="name">delivery.cost.tree</field>
+   <field name="model">delivery.cost.fleet</field>
+   <field name="arch" type="xml">
+       <tree string="Lista de Fletes" colors="blue: activate == True">
+                <field name="transportista_id"/>
+                <field name="name"/>
+          	<field name="origin_id"/>
+		<field name="costo_galon"/>
+		<field name="currency_id" />
+		<field name="activate" invisible="1"/>
+		
+       </tree>
+   </field> 
+   </record> 
+   <!--  Accion para Contratos -->
+   <record model="ir.actions.act_window" id="delivery_cost_action">
+   <field name="name">Costo de Fletes</field>
+   <field name="res_model">delivery.cost.fleet</field>
+   <field name="view_type">form</field>
+   <field name="view_mode">tree,form,graph</field>
+   <field name="help" type="html">
+   <p class="oe_view_nocontent_create">Create first fleet</p>
+   </field>
+   </record>
+   <!-- Fin de Action de Contratos -->
+     <!--  Menu Principal de contratos-->
+   <menuitem name="Tarifa de Fletes" id="menu_fleet_cost_managment" parent="menu_cost_delivery" action="delivery_cost_action"          groups="base.group_sale_manager" sequence="15"/>
+ </data>
+</openerp>

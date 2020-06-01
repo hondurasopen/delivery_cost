@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+<data>
+
+
+<record model="ir.ui.view" id="vedd_cost_fleet_liquidacion_line_tree_view">
+ <field name="name">vedd.cost.fleet.liquidacion.line.tree.view</field>
+ <field name="model">vedd.cost.fleet.liquidacion.line</field>
+ <field name="arch" type="xml">
+     <tree string="Lista de Fletes" readonly="1" creae="0" colors="red:total == 0 ; green:total > 0">
+        <field name="date_delivery" />
+        <field name="invoice_id" />
+        <field name="customer_id" />
+        <field name="numero_tanque" />
+        <field name="destinity" />
+        <field name="product_id" />
+        <field name="qty_galones" sum="Total"/>
+        <field name="costo_galon" sum="Total"/>
+        <field name="total" sum="Total"/>
+     </tree>
+ </field> 
+</record> 
+
+
+<record model="ir.actions.act_window" id="action_vedd_cost_fleet_liquidacion_line">
+<field name="name">Detalle de Fletes</field>
+<field name="res_model">vedd.cost.fleet.liquidacion.line</field>
+<field name="view_type">form</field>
+<field name="view_mode">tree,form,graph</field>
+ <field name="domain">[('parent_id','=',active_id)]</field>
+</record>
+
+
+<record model="ir.ui.view" id="delivery_cost_fleet_liquidacion_form_search">
+    <field name="name">vedd.cost.fleet.liquidacion.form.search</field>
+    <field name="model">vedd.cost.fleet.liquidacion</field>
+    <field name="arch" type="xml">
+    <search string='Buscar'>
+        <filter string="Fletes Pendientes de Liquidar" domain="[('state','=','draft')]" name="delivery_open"/>
+        <filter string="Fletes liquidados" name="Liquidados" domain="[('state','=','done')]"/>
+        <group expand="0" string="Agrupado por">
+            <filter string="Transportista"  domain="[]" context="{'group_by':'supplier_id'}"/>
+            <filter string="Estado" domain="[]" context="{'group_by':'state'}"/>
+            <filter string="Flete por Mes" domain="[]" context="{'group_by':'start_date'}"/>		
+        </group>
+    </search>
+    </field>
+</record>
+
+<record model="ir.ui.view" id="delivery_cost_fleet_liquidacion_form_view">
+<field name="name">vedd.cost.fleet.liquidacion.form.view</field>
+<field name="model">vedd.cost.fleet.liquidacion</field>
+<field name="arch" type="xml">
+<form string="Lista de Fletes">
+<header>
+    <button name="get_fletes_sale" type="object" string="Obtener fletes" states="draft" class="oe_highlight" />
+    <button name="create_invoice" type="object" string="Liquidar" states="draft" class="oe_highlight" />
+    <field name="state" widget="statusbar" nolabel="1"/>
+</header>
+<sheet string="Flete de Clientes">
+     <div class="oe_right oe_button_box" position="inside">
+        <button class="oe_stat_button"
+            icon="fa-strikethrough"
+            type="action" name="%(action_vedd_cost_fleet_liquidacion_line)d"
+            string="Detalle de fletes">
+        </button>
+    </div> 
+    <group colspan="4">
+      <group cols="2">
+            <field name="start_date" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+            <field name="supplier_id" options="{'no_create': True}" domain="[('transportista', '=', True)]" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+            <field name="invoice_id" readonly="1"/>
+      </group>
+      <group cols="2">
+            <field name="end_date"  attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+            <field name="amount_total" readonly="1"/>
+            <field name="invoice_number" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+      </group>
+    </group>
+    <notebook colspan="4">
+    <page string="Detalle de fletes">
+        <field name="flete_ids"  attrs="{'readonly': [('state', '!=', 'draft')]}">
+          <tree colors="red:total == 0 ; green:total > 0">
+            <field name="date_delivery" />
+            <field name="invoice_id" />
+            <field name="customer_id" />
+            <field name="numero_tanque" />
+            <field name="destinity" />
+            <field name="product_id" />
+            <field name="qty_galones" sum="Total"/>
+            <field name="costo_galon" sum="Total"/>
+            <field name="total" sum="Total"/>
+           </tree> 
+        </field>
+    </page> 
+    </notebook>
+</sheet>
+</form>
+</field> 
+</record>
+
+<record model="ir.ui.view" id="delivery_cost_fleet_liquidacion_tree_view">
+ <field name="name">vedd.cost.fleet.liquidacion.tree.view</field>
+ <field name="model">vedd.cost.fleet.liquidacion</field>
+ <field name="arch" type="xml">
+     <tree string="Lista de Fletes" >
+        <field name="start_date" />
+        <field name="end_date"/>
+        <field name="supplier_id"/>
+        <field name="amount_total"/>
+     </tree>
+ </field> 
+</record> 
+
+   <!--  Accion para Contratos -->
+<record model="ir.actions.act_window" id="action_delivery_cost_fleet_liquidacion">
+<field name="name">Liquidación de Fletes</field>
+<field name="res_model">vedd.cost.fleet.liquidacion</field>
+<field name="view_type">form</field>
+<field name="view_mode">tree,form,graph</field>
+<field name="help" type="html">
+  <p class="oe_view_nocontent_create">Create first fleet</p>
+</field>
+</record>
+
+<menuitem name="Liquidación de Fletes" id="menu_fleet_liquidacion" parent="menu_reportes" action="action_delivery_cost_fleet_liquidacion" sequence="1"/>
+
+ </data>
+</openerp>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+<data>
+<record model="ir.ui.view" id="view_priceslist_search">
+           		 <field name="name">sale.priceslist.gas</field>
+           		 <field name="model">sale.priceslist.gas</field>
+           		 <field name="arch" type="xml">
+				<search string ='Buscar'>
+					<field name="name" filter_domain="[('name', 'ilike', self)]" string="Ciudad"/>
+					<field name="product_id" filter_domain="[('name', 'ilike', self)]" string="Por Producto"/>
+					 <separator/>
+					  <group expand="0" string="Agrupado por">
+                       				   <filter string="Ciudad"  domain="[]" context="{'group_by':'name'}"/>
+                     				   <filter string="Combustible" domain="[]" context="{'group_by':'product_id'}"/>
+						  <filter string="Mes"  domain="[]" context="{'group_by':'start_date'}"/>		
+                   			 </group>
+				
+				</search>
+			</field>
+</record>
+ <record model="ir.ui.view" id="view_priceslist_city_graph">
+            <field name="name">priceslist.city.graph</field>
+            <field name="model">sale.priceslist.gas</field>
+            <field name="arch" type="xml">
+                <graph string="Precios por Ciudad" type="bar">
+		    <field name="name" type="row"/>
+                    <field name="price_list" type="measure"/>
+                </graph>
+            </field>
+</record>
+
+<record model="ir.ui.view" id="priceslist_sale_form_view">
+       <field name="name">sale.priceslist.gas</field>
+       <field name="model">sale.priceslist.gas</field>
+       <field name="arch" type="xml">
+           <form string="Lista de Precios de Venta">
+	     <sheet>
+		<h2>
+              <field name="name" placeholder="Nombre de Ciudad..." class="oe_inline"/>
+          </h2>
+	<separator string="Información de Precios"/>
+		<group colspan="4">
+		<group cols="2">	
+                        <field name="product_id"/>
+			<field name="price_list" />	  	
+		</group>
+		<group cols="2">
+			<field name="start_date"/>
+			<field name="end_date"/>
+			<field name="code"/>
+		</group>
+		</group>
+		<notebook colspan="4">
+		  <page string="Notas">
+			<separator string="Notas"/>
+			<field name="notas"/>
+		  </page>	
+		</notebook>
+	    </sheet>
+	  </form>
+       </field>
+</record>
+
+ <record model="ir.ui.view" id="sale_priceslist_tree_view">
+   <field name="name">sale.priceslist.gas</field>
+   <field name="model">sale.priceslist.gas</field>
+   <field name="arch" type="xml">
+       <tree string="Lista de Precios">
+		<field name="code"/>
+                <field name="name"/>
+                <field name="product_id"/>
+          	<field name="price_list"/>
+		<field name="start_date"/>
+		<field name="end_date" />
+       </tree>
+   </field> 
+   </record> 
+   <!--  Accion para Lista de Precios -->
+   <record model="ir.actions.act_window" id="sale_priceslist_action">
+   <field name="name">Lista de Precios</field>
+   <field name="res_model">sale.priceslist.gas</field>
+   <field name="view_type">form</field>
+   <field name="view_mode">tree,form,graph</field>
+   <field name="help" type="html">
+   <p class="oe_view_nocontent_create">Create first Priceslist</p>
+   </field>
+   </record>
+   <!-- Fin de Action de Contratos -->
+     <!--  Menu Principal de contratos-->
+   <menuitem name="Lista de Precios" id="menu_lista_precios" parent="menu_cost_delivery" action="sale_priceslist_action"          groups="base.group_sale_manager" sequence="1"/>
+ </data>
+</openerp>

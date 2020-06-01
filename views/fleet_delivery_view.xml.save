@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+<data>
+
+<record model="ir.ui.view" id="view_fleet_invoice_search">
+           		 <field name="name">sale.order.line.delivery</field>
+           		 <field name="model">sale.order.line.delivery</field>
+           		 <field name="arch" type="xml">
+				<search string = 'Buscar'>
+			<filter string="Fletes Pendientes de Liquidar" domain="[('state','=','open')]" name="delivery_open"/>
+			<filter string="Fletes Pagados" name="pagados" domain="[('state','=','paid')]"/>
+					  <group expand="0" string="Agrupado por">
+                       				   <filter string="Transportista"  domain="[]" context="{'group_by':'transportista_id'}"/>
+                     				   <filter string="Pedido de Ventas" domain="[]" context="{'group_by':'sale_id'}"/>
+						    <filter string="Cuenta por Pagar" domain="[]" context="{'group_by':'invoice_fleet_id'}"/>
+						    <filter string="Lugar de Destino" domain="[]" context="{'group_by':'fletes_id'}"/>
+						<filter string="Flete por Mes" domain="[]" context="{'group_by':'date'}"/>		
+                   			 </group>
+				
+				</search>
+			</field>
+</record>
+
+ <record model="ir.ui.view" id="view_delivery_send_graph">
+            <field name="name">delivery.sent.customer.graph</field>
+            <field name="model">sale.order.line.delivery</field>
+            <field name="arch" type="xml">
+                <graph string="Fletes de Clientes" type="bar">
+		    <field name="transportista_id" type="row"/>
+                    <field name="total" type="measure"/>
+                </graph>
+            </field>
+</record>
+
+ <record model="ir.ui.view" id="fleet_line_form_view">
+   <field name="name">fleet.line.delivery.form</field>
+   <field name="model">sale.order.line.delivery</field>
+   <field name="arch" type="xml">
+       <form string="Lista de Fletes">
+	<header>
+	<field name="state" widget="statusbar" nolabel="1"/>
+	</header>
+        <sheet string="Flete de Clientes">
+	  <group colspan="4">
+             <group cols="2">
+		<field name="sale_id" />
+		<field name="factura_cliente_id"/>
+		<field name="invoice_fleet_id"/>
+		<field name="date"/>
+                <field name="fletes_id"/>
+		<field name="transportista_id"/>
+		<field name="name"/>
+              </group>
+	     <group cols="2">
+		<field name="product_id"/>
+		<field name="qty_galones" />
+		<field name="costo_galon"/>
+		<field name="name" invisible="1"/>
+		<field name="total" />
+		<field name="state" />
+		<field name="paid_state" invisible="1"/>
+	     </group>
+	   </group>
+
+	</sheet>
+       </form>
+   </field> 
+  </record>
+
+ <record model="ir.ui.view" id="fleet_line_tree_view">
+   <field name="name">fleet.line.delivery.tree</field>
+   <field name="model">sale.order.line.delivery</field>
+   <field name="arch" type="xml">
+		<field name="sale_id" />
+		<field name="factura_cliente_id"/>
+		<field name="date"/>
+             <field name="fletes_id"/>
+		<field name="transportista_id"/>
+		<field name="name"/>
+		<field name="product_id"/>
+		<field name="costo_galon"/>
+		<field name="qty_galones" sum="Total de Galones"/>
+		<field name="name" invisible="1"/>
+		<field name="total" sum="Total"/>
+		<field name="state"/>
+		<field name="paid_state" invisible="1"/>	
+       </tree>
+   </field> 
+  </record> 
+   <!--  Accion para Contratos -->
+   <record model="ir.actions.act_window" id="delivery_fleet_list_action">
+   <field name="name">Lista de Fletes de Clientes</field>
+   <field name="res_model">sale.order.line.delivery</field>
+   <field name="view_type">form</field>
+   <field name="view_mode">tree,form,graph</field>
+	<field name="context">{'search_default_delivery_open': 1}</field>
+   <field name="help" type="html">
+   <p class="oe_view_nocontent_create">Create first fleet</p>
+   </field>
+   </record>
+   <!-- Fin de Action de Contratos -->
+     <!--  Menu Principal de contratos-->
+	
+   <menuitem name="Fletes de Clientes" id="menu_fleet_list" parent="menu_cost_delivery" action="delivery_fleet_list_action"          groups="delivery_cost.group_fleet_manager_general,delivery_cost.group_fleet_user_general" sequence="25"/>
+ </data>
+</openerp>

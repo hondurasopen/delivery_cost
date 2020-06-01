@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+<data>
+
+ <record model="ir.ui.view" id="sale_report_margin_tree_view">
+   <field name="name">sale.order.reports.margin</field>
+   <field name="model">sale.order</field>
+   <field name="arch" type="xml">
+       <tree string="Lista de Precios">
+			<field name="partner_id"/>
+           	<field name="date_order"/>
+            <field name="client_order_ref"/>
+          	<field name="costo_producto" string="Costo"/>
+			<field name="amount_total"/>
+			<field name="total_flete" />
+       </tree>
+   </field> 
+   </record> 
+   <!--  Accion para pedidos de ventas -->
+   <record model="ir.actions.act_window" id="sale_margin_action">
+   <field name="name">Margen Pedidos</field>
+   <field name="res_model">sale.order</field>
+   <field name="view_type">tree</field>
+	<field name="view_mode">graph</field>
+	<field name="domain">[('state','in',['progress','done','manual'])]</field>
+   <field name="view_id" ref="sale_report_margin_tree_view"/>
+   </record>
+     <!--  Menu para reportes-->
+<menuitem name="Reportes" id="menu_reportes" parent="menu_delivery_cost_parent"          groups="delivery_cost.group_pricelist_user,delivery_cost.group_pricelist_manager" sequence="1"/>
+
+<menuitem name="Ventas Totales" id="menu_pedidos_ventas" parent="menu_reportes" action="sale_margin_action"          groups="delivery_cost.group_pricelist_user,delivery_cost.group_pricelist_manager" sequence="1"/>
+ </data>
+</openerp>
