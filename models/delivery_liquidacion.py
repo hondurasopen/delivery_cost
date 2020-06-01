@@ -100,7 +100,7 @@ class DeliveryLiquidacion(models.Model):
                         'total': delivery.total,
                     }
                     if sale.invoice_ids.state in ('open', 'paid'):
-                        vals['invoice_id']: sale.invoice_ids.number
+                        vals['invoice_id'] = sale.invoice_ids.number
                     id_obj = obj_report_fleet.create(vals)
 
         self.amount_total = 0
