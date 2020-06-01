@@ -99,8 +99,14 @@ class DeliveryLiquidacion(models.Model):
                         'costo_galon': delivery.costo_galon,
                         'total': delivery.total,
                     }
-                    if sale.invoice_ids.state in ('open', 'paid'):
-                        vals['invoice_id'] = sale.invoice_ids.number
+                    factura_t = ""
+                    for factura in sale.invoice_ids
+                        factura_t = factura_t + " " + factura.number 
+                        if factura.state == 'open' or factura.state ==  'paid':
+                            if len(factura) == 1:
+                                vals['invoice_id'] = factura.number
+                            else 
+                                vals["invoice_id"] = factura_t
                     id_obj = obj_report_fleet.create(vals)
 
         self.amount_total = 0
